@@ -6,17 +6,18 @@
 <section class="gc-hero">
 <div class="container py-5"><div class="row g-4 align-items-center">
 <div class="col-lg-7">
-    <span class="gc-eyebrow">Free counselling · UK · USA · Canada · Australia · Europe</span>
-    <h1>Get into a British university, guided start to finish.</h1>
+    <span class="gc-eyebrow">{{ setting('company_usp', '100% FREE Education Counselling') }} · UK · USA · Canada · Australia · EU · Malaysia · Finland</span>
+    <h1>Dream to study abroad? Find the right path with Global Consultancy!</h1>
     <hr class="gc-hero-rule">
-    <p class="lead">Course shortlisting, applications, CAS, visa and pre-departure — one counsellor owns your file from first call to arrival.</p>
+    <p class="lead">{{ setting('company_tagline', 'Your Dream to Study Abroad - Just Click & Achieve It') }} {{ setting('company_bio_short', '') }}</p>
     <div class="d-flex gap-2 flex-wrap mt-3">
         <a href="{{ Route::has('appointment.book') ? route('appointment.book') : url('/book-appointment') }}" class="btn btn-primary btn-lg">Book free counselling</a>
         <a href="{{ Route::has('apply') ? route('apply') : url('/apply-online') }}" class="btn btn-outline-light btn-lg">Apply online</a>
     </div>
     <div class="gc-proof">
         <div><div class="n tnum">{{ number_format($stats['offers'] ?? 0) }}+</div><div class="l">Offers secured</div></div>
-        <div><div class="n tnum">{{ $stats['visa_rate'] ?? 0 }}%</div><div class="l">Visa grant rate</div></div>
+        <div><div class="n tnum">{{ $stats['visa_rate'] ?? 0 }}%</div><div class="l">Proven visa record</div></div>
+        <div><div class="n tnum">19K</div><div class="l">Facebook followers</div></div>
         <div><div class="n tnum">{{ $stats['partners'] ?? 0 }}</div><div class="l">Partner universities</div></div>
     </div>
 </div>
@@ -56,6 +57,17 @@
 <div class="flag">Course Finder</div>
 <p class="small text-muted mb-0 mt-1">Filter by subject, budget and IELTS.</p>
 </a></div>
+</div>
+</div></section>
+
+{{-- 5-STEP PROCESS (from Facebook banner) --}}
+<section class="gc-section pt-0"><div class="container">
+<span class="gc-eyebrow">How it works</span>
+<h2>Dream → Admission in five steps.</h2>
+<div class="row g-3 mt-1">
+@foreach([['Dream','fa-graduation-cap','Picture yourself on a UK campus.'],['Counselling','fa-comments','100% free expert guidance.'],['Select University','fa-building-columns','Shortlist that fits grades + budget.'],['Apply','fa-paper-plane','Documents checked, filed fast.'],['Get Admission','fa-file-circle-check','Offer, CAS, visa — done.']] as [$t,$icon,$d])
+<div class="col-6 col-lg"><div class="gc-dest-card text-center"><i class="fa-solid {{ $icon }} fs-4" style="color:var(--gc-accent)"></i><div class="fw-bold mt-2">{{ $t }}</div><p class="small text-muted mb-0">{{ $d }}</p></div></div>
+@endforeach
 </div>
 </div></section>
 

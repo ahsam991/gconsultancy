@@ -49,6 +49,16 @@ class University extends Model
         return $this->hasMany(Invoice::class);
     }
 
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(UniversityContact::class);
+    }
+
+    public function scholarships(): HasMany
+    {
+        return $this->hasMany(Scholarship::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('active', true);

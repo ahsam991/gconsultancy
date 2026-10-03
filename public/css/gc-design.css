@@ -5,25 +5,25 @@
    transform/opacity motion only, prefers-reduced-motion respected.
    ============================================================ */
 :root{
-  --gc-ink:#16233f;
-  --gc-ink-2:#1f2f52;
-  --gc-ink-soft:#48587c;
+  --gc-ink:#0B2C5C;
+  --gc-ink-2:#123a75;
+  --gc-ink-soft:#3d5170;
   --gc-paper:#faf8f3;
   --gc-card:#ffffff;
   --gc-line:#e7e1d2;
   --gc-line-soft:#f0ebdf;
-  --gc-accent:#1e40af;
-  --gc-accent-ink:#17317f;
-  --gc-brass:#b45309;
-  --gc-brass-soft:#fdf3e7;
+  --gc-accent:#FF8C00;
+  --gc-accent-ink:#cc6f00;
+  --gc-brass:#FF8C00;
+  --gc-brass-soft:#fff4e5;
   --gc-ok:#166534;
   --gc-ok-bg:#eaf5ee;
   --gc-warn:#92400e;
   --gc-warn-bg:#fdf3e7;
   --gc-bad:#991b1b;
   --gc-bad-bg:#fbecec;
-  --gc-info:#1e40af;
-  --gc-info-bg:#eaf0fd;
+  --gc-info:#0B2C5C;
+  --gc-info-bg:#e8effc;
   --gc-mute:#6b7690;
   --gc-mute-bg:#eef0f4;
   --gc-display:"Newsreader",Georgia,"Times New Roman",serif;
@@ -83,7 +83,7 @@ p,.gc-body-text{text-wrap:pretty}
 .gc-dest-card .flag{font-family:var(--gc-display);font-size:1.35rem;font-weight:700}
 .gc-step-num{width:40px;height:40px;border-radius:50%;background:var(--gc-ink);color:#f3ead3;font-family:var(--gc-display);font-weight:700;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;flex:none}
 .gc-faq .accordion-button:not(.collapsed){background:var(--gc-brass-soft);color:var(--gc-ink);box-shadow:none}
-.gc-faq .accordion-button:focus{box-shadow:0 0 0 2px rgba(30,64,175,.25)}
+.gc-faq .accordion-button:focus{box-shadow:0 0 0 2px rgba(255,140,0,.35)}
 .gc-cta-band{background:var(--gc-ink);border-top:4px solid var(--gc-brass);color:#f5f1e6;border-radius:16px}
 
 /* ---------- CRM shell: ink sidebar ---------- */

@@ -16,6 +16,11 @@ class Offer extends Model
         return $this->belongsTo(Application::class);
     }
 
+    public function conditions()
+    {
+        return $this->hasMany(OfferCondition::class);
+    }
+
     public function scopeByStatus($query, $status)
     {
         return $query->where('status', $status);

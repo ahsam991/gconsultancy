@@ -55,6 +55,21 @@ class User extends Authenticatable
         return $this->hasMany(Application::class, 'assigned_staff_id');
     }
 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function loginHistories()
+    {
+        return $this->hasMany(LoginHistory::class);
+    }
+
+    public function availabilities()
+    {
+        return $this->hasMany(StaffAvailability::class);
+    }
+
     /**
      * Check if user has a specific permission.
      *

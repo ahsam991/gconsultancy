@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCourseRequest;
 use App\Models\Course;
+use App\Models\CourseRequirement;
+use App\Models\DocumentType;
 use App\Models\University;
 use App\Services\AuditService;
 use Illuminate\Http\Request;
@@ -88,5 +90,48 @@ class CourseController extends Controller
             return response()->json($courses);
         }
         return view('courses.finder', compact('courses'));
+    }
+
+    /* ------------------------- requirements (nested) ------------------------- */
+
+    public function requirementsIndex(Course $course)
+    {
+        $requirements = CourseRequirement::with('documentType')
+            ->where('course_id', $course->id)
+            ->orderBy('id')
+            ->paginate(15);
+        $documentTypes = DocumentType::where('active', true)->orderBy('name')->get(['id', 'name']);
+        $course->load('university');
+        return view('courses.requirements', compact('course', 'requirements', 'documentTypes'));
+    }
+
+    public function requirementStore(Request $request, Course $course)
+    {
+        $data = $request->validate([
+            'document_type_id' => 'required|exists:document_types,id',
+            'required' => 'nullable|boolean',
+            'note' => 'nullable|string|max:1000',
+        ]);
+        $data['course_id'] = $course->id;
+        $data['required'] = $request->boolean('required', true);
+
+        $existing = CourseRequirement::where('course_id', $course->id)
+            ->where('document_type_id', $data['document_type_id'])
+            ->first();
+
+        if ($existing) {
+            $existing->update(['required' => $data['required'], 'note' => $data['note'] ?? $existing->note]);
+            return back()->with('status', 'Requirement updated.');
+        }
+
+        CourseRequirement::create($data);
+        return back()->with('status', 'Requirement added.');
+    }
+
+    public function requirementDestroy(Course $course, CourseRequirement $requirement)
+    {
+        abort_if($requirement->course_id !== $course->id, 404);
+        $requirement->delete();
+        return back()->with('status', 'Requirement removed.');
     }
 }

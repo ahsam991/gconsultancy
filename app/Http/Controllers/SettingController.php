@@ -100,6 +100,26 @@ class SettingController extends Controller
         return view('audit.index', compact('logs'));
     }
 
+    public function sessionsIndex()
+    {
+        $sessions = \DB::table('sessions')->orderByDesc('last_activity')->paginate(15);
+        $users = \App\Models\User::whereIn('id', $sessions->pluck('user_id')->filter()->unique())->get()->keyBy('id');
+        return view('settings.sessions', compact('sessions', 'users'));
+    }
+
+    public function sessionTerminate($id)
+    {
+        \DB::table('sessions')->where('id', $id)->delete();
+        \App\Services\AuditService::log('auth.session_terminated', null, null, ['session' => $id]);
+        return redirect()->back()->with('status', 'Session terminated (user will be logged out).');
+    }
+
+    public function loginHistory()
+    {
+        $history = \App\Models\LoginHistory::with('user')->orderByDesc('created_at')->paginate(20);
+        return view('settings.login-history', compact('history'));
+    }
+
     public function notificationsIndex(Request $request)
     {
         $notifications = $request->user()->notifications()->paginate(15);

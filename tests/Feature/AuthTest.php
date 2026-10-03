@@ -48,11 +48,39 @@ class AuthTest extends TestCase
             'email' => 'new@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
-            'role_id' => $roles['candidate']->id,
+            'consent' => '1',
         ]);
 
         $response->assertRedirect();
         $this->assertDatabaseHas('users', ['email' => 'new@example.com']);
+    }
+
+    public function test_register_ignores_role_escalation(): void
+    {
+        $roles = $this->makeRoles();
+
+        $this->post('/auth/register', [
+            'name' => 'Sneaky Admin',
+            'email' => 'sneaky@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+            'role_id' => $roles['admin']->id,
+            'consent' => '1',
+        ]);
+
+        $this->assertDatabaseHas('users', ['email' => 'sneaky@example.com', 'role_id' => $roles['candidate']->id]);
+    }
+
+    public function test_register_requires_consent(): void
+    {
+        $this->makeRoles();
+
+        $this->post('/auth/register', [
+            'name' => 'No Consent',
+            'email' => 'noconsent@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ])->assertSessionHasErrors('consent');
     }
 
     public function test_register_rejects_duplicate_email(): void

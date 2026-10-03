@@ -85,17 +85,10 @@
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="role">Role</label>
-                    <select 
-                        name="role_id" 
-                        id="role" 
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                        <option value="1">Admin</option>
-                        <option value="2">Manager</option>
-                        <option value="3">Staff</option>
-                        <option value="4">Candidate</option>
-                    </select>
+                    <label class="flex items-start gap-2 text-sm text-gray-700">
+                        <input type="checkbox" name="consent" value="1" required class="mt-1">
+                        <span>I consent to Global Consultancy storing my details to process my enquiry (privacy policy v1.0).</span>
+                    </label>
                 </div>
 
                 <div class="mb-8">

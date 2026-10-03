@@ -54,6 +54,11 @@ class Course extends Model
         return $this->hasMany(CourseRequirement::class);
     }
 
+    public function scholarships(): HasMany
+    {
+        return $this->hasMany(Scholarship::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('active', true);

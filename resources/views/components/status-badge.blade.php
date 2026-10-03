@@ -1,10 +1,10 @@
 @props(['status' => ''])
 @php
 $s = strtolower((string) $status);
-$ok = ['approved','verified','granted','enrolled','paid','received','active','published','completed','accepted','issued','confirmed','converted','claimed'];
+$ok = ['approved','verified','granted','enrolled','paid','received','active','published','completed','accepted','issued','confirmed','converted','claimed','success','enabled','open'];
 $info = ['submitted','in_progress','processing','contacted','acknowledged','review','interview','requested','scheduled','confirmed','sent','partial'];
 $warn = ['pending','unpaid','draft','new','lead','awaiting','deposit_required','conditional','offer_received'];
-$bad = ['refused','rejected','overdue','cancelled','failed','expired','lost','withdrawn'];
+$bad = ['refused','rejected','overdue','cancelled','failed','expired','lost','withdrawn','infected','disabled','breached'];
 if (in_array($s, $ok, true)) $c = 'ok';
 elseif (in_array($s, $info, true)) $c = 'info';
 elseif (in_array($s, $warn, true)) $c = 'warn';

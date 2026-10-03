@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Commission extends Model
 {
-    protected $fillable = ['application_id', 'candidate_id', 'university_id', 'amount', 'currency', 'rate_percent', 'status', 'expected_date', 'claimed_date', 'received_date', 'notes'];
+    protected $fillable = ['application_id', 'candidate_id', 'university_id', 'amount', 'currency', 'rate_percent', 'status', 'expected_date', 'claimed_date', 'received_date', 'notes', 'referral_partner_id', 'clawback_amount', 'clawback_reason', 'clawback_deadline'];
 
     protected $casts = ['amount' => 'decimal:2', 'rate_percent' => 'decimal:2', 'expected_date' => 'date', 'claimed_date' => 'date', 'received_date' => 'date'];
 

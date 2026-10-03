@@ -41,6 +41,12 @@ Route::get('/apply-online', [PublicController::class, 'apply'])->name('apply');
 Route::post('/apply-online', [PublicController::class, 'applyStore'])->middleware('throttle:20,1')->name('apply.store');
 Route::post('/enquiries', [PublicController::class, 'enquirySubmit'])->middleware('throttle:20,1')->name('enquiries.store');
 Route::post('/course-apply', [PublicController::class, 'courseApply'])->middleware('throttle:20,1')->name('course.apply');
+Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
+Route::get('/compare', [\App\Http\Controllers\EngagementController::class, 'compare'])->name('engagement.compare');
+Route::get('/eligibility-check', [\App\Http\Controllers\EngagementController::class, 'eligibility'])->name('engagement.eligibility');
+Route::post('/eligibility-check', [\App\Http\Controllers\EngagementController::class, 'eligibilityCheck'])->name('engagement.eligibility.check');
+Route::get('/availability/slots', [\App\Http\Controllers\AvailabilityController::class, 'slots'])->middleware('throttle:60,1')->name('availability.slots');
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +57,13 @@ Route::get('/auth/login', [AuthController::class, 'login'])->name('login');
 Route::post('/auth/login', [AuthController::class, 'authenticate'])->middleware('throttle:10,1')->name('login.attempt');
 Route::get('/auth/register', [AuthController::class, 'register'])->name('register');
 Route::post('/auth/register', [AuthController::class, 'store'])->middleware('throttle:6,1')->name('register.store');
+Route::get('/auth/2fa', [AuthController::class, 'twoFactorChallenge'])->name('2fa.challenge');
+Route::post('/auth/2fa', [AuthController::class, 'twoFactorVerify'])->middleware('throttle:10,1')->name('2fa.verify');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/auth/2fa/setup', [AuthController::class, 'twoFactorSetup'])->name('2fa.setup');
+    Route::post('/auth/2fa/confirm', [AuthController::class, 'twoFactorConfirm'])->name('2fa.confirm');
+    Route::post('/auth/2fa/disable', [AuthController::class, 'twoFactorDisable'])->name('2fa.disable');
+});
 Route::get('/auth/forgot-password', [AuthController::class, 'forgetPassword'])->name('password.request');
 Route::post('/auth/forgot-password', [AuthController::class, 'forgetPassword'])->name('password.email');
 Route::get('/auth/reset-password/{token}', [AuthController::class, 'resetPassword'])->name('password.reset');
@@ -155,7 +168,92 @@ Route::middleware(['auth'])->prefix('crm')->group(function () {
     Route::get('reports/enrolments', [ReportController::class, 'enrolments'])->name('reports.enrolments');
     Route::get('reports/staff', [ReportController::class, 'staff'])->name('reports.staff');
     Route::get('reports/export', [ReportController::class, 'export'])->name('reports.export');
+    Route::get('reports/funnel', [ReportController::class, 'funnel'])->name('reports.funnel');
+    Route::get('reports/marketing', [ReportController::class, 'marketing'])->name('reports.marketing');
+    Route::get('reports/universities', [ReportController::class, 'universities'])->name('reports.universities');
+    Route::get('reports/deadlines', [ReportController::class, 'deadlines'])->name('reports.deadlines');
+    Route::get('reports/sla', [ReportController::class, 'sla'])->name('reports.sla');
     Route::get('search', [\App\Http\Controllers\SearchController::class, 'index'])->name('search');
+
+    // Counselling
+    Route::resource('counselling', \App\Http\Controllers\CounsellingController::class);
+
+    // Student support
+    Route::get('support/accommodations', [\App\Http\Controllers\StudentSupportController::class, 'accommodationIndex'])->name('support.accommodations');
+    Route::post('support/accommodations', [\App\Http\Controllers\StudentSupportController::class, 'accommodationStore'])->name('support.accommodations.store');
+    Route::put('support/accommodations/{id}', [\App\Http\Controllers\StudentSupportController::class, 'accommodationUpdate'])->name('support.accommodations.update');
+    Route::delete('support/accommodations/{id}', [\App\Http\Controllers\StudentSupportController::class, 'accommodationDestroy'])->name('support.accommodations.destroy');
+    Route::get('support/predeparture/{id}', [\App\Http\Controllers\StudentSupportController::class, 'predepartureShow'])->name('support.predeparture');
+    Route::put('support/predeparture/{id}', [\App\Http\Controllers\StudentSupportController::class, 'predepartureUpdate'])->name('support.predeparture.update');
+    Route::get('support/arrival/{id}', [\App\Http\Controllers\StudentSupportController::class, 'arrivalShow'])->name('support.arrival');
+    Route::put('support/arrival/{id}', [\App\Http\Controllers\StudentSupportController::class, 'arrivalUpdate'])->name('support.arrival.update');
+    Route::get('support/sponsorships', [\App\Http\Controllers\StudentSupportController::class, 'sponsorshipIndex'])->name('support.sponsorships');
+    Route::post('support/sponsorships', [\App\Http\Controllers\StudentSupportController::class, 'sponsorshipStore'])->name('support.sponsorships.store');
+    Route::put('support/sponsorships/{id}', [\App\Http\Controllers\StudentSupportController::class, 'sponsorshipUpdate'])->name('support.sponsorships.update');
+    Route::delete('support/sponsorships/{id}', [\App\Http\Controllers\StudentSupportController::class, 'sponsorshipDestroy'])->name('support.sponsorships.destroy');
+    Route::get('support/fees', [\App\Http\Controllers\StudentSupportController::class, 'feeIndex'])->name('support.fees');
+    Route::post('support/fees', [\App\Http\Controllers\StudentSupportController::class, 'feeStore'])->name('support.fees.store');
+    Route::put('support/fees/{id}', [\App\Http\Controllers\StudentSupportController::class, 'feeUpdate'])->name('support.fees.update');
+
+    // Journey extras
+    Route::get('journey/offers/{id}', [JourneyController::class, 'offerShow'])->name('journey.offers.show');
+    Route::post('journey/offers/{id}/conditions', [JourneyController::class, 'conditionStore'])->name('journey.conditions.store');
+    Route::put('journey/conditions/{id}', [JourneyController::class, 'conditionUpdate'])->name('journey.conditions.update');
+    Route::patch('journey/conditions/{id}/toggle', [JourneyController::class, 'conditionToggle'])->name('journey.conditions.toggle');
+
+    // Engagement (CRM)
+    Route::get('engagement/wishlist', [\App\Http\Controllers\EngagementController::class, 'wishlistIndex'])->name('engagement.wishlist.index');
+    Route::post('engagement/wishlist', [\App\Http\Controllers\EngagementController::class, 'wishlistStore'])->name('engagement.wishlist.store');
+    Route::post('engagement/wishlist/toggle', [\App\Http\Controllers\EngagementController::class, 'wishlistToggle'])->name('engagement.wishlist.toggle');
+    Route::delete('engagement/wishlist/{id}', [\App\Http\Controllers\EngagementController::class, 'wishlistDestroy'])->name('engagement.wishlist.destroy');
+    Route::post('engagement/shortlists', [\App\Http\Controllers\EngagementController::class, 'shortlistStore'])->name('engagement.shortlist.store');
+    Route::match(['put', 'patch'], 'engagement/shortlists/{id}', [\App\Http\Controllers\EngagementController::class, 'shortlistUpdate'])->name('engagement.shortlist.update');
+    Route::delete('engagement/shortlists/{id}', [\App\Http\Controllers\EngagementController::class, 'shortlistDestroy'])->name('engagement.shortlist.destroy');
+
+    // Messages
+    Route::get('messages', [\App\Http\Controllers\MessageController::class, 'index'])->name('messages.index');
+    Route::get('messages/{candidate}', [\App\Http\Controllers\MessageController::class, 'show'])->name('messages.show');
+    Route::post('messages', [\App\Http\Controllers\MessageController::class, 'store'])->name('messages.store');
+
+    // Availabilities + calendar
+    Route::get('availabilities', [\App\Http\Controllers\AvailabilityController::class, 'index'])->name('availabilities.index');
+    Route::post('availabilities', [\App\Http\Controllers\AvailabilityController::class, 'store'])->name('availabilities.store');
+    Route::match(['put', 'patch'], 'availabilities/{availability}', [\App\Http\Controllers\AvailabilityController::class, 'update'])->name('availabilities.update');
+    Route::delete('availabilities/{availability}', [\App\Http\Controllers\AvailabilityController::class, 'destroy'])->name('availabilities.destroy');
+    Route::get('calendar', [\App\Http\Controllers\AvailabilityController::class, 'calendar'])->name('calendar.index');
+
+    // Automation
+    Route::get('automation/rules', [\App\Http\Controllers\AutomationController::class, 'index'])->name('automation.rules');
+    Route::post('automation/rules', [\App\Http\Controllers\AutomationController::class, 'store'])->name('automation.rules.store');
+    Route::match(['put', 'patch'], 'automation/rules/{rule}', [\App\Http\Controllers\AutomationController::class, 'update'])->name('automation.rules.update');
+    Route::delete('automation/rules/{rule}', [\App\Http\Controllers\AutomationController::class, 'destroy'])->name('automation.rules.destroy');
+    Route::get('automation/logs', [\App\Http\Controllers\AutomationController::class, 'logs'])->name('automation.logs');
+
+    // Finance extensions
+    Route::get('referrals', [FinanceController::class, 'referrals'])->name('referrals.index');
+    Route::post('referrals', [FinanceController::class, 'referralStore'])->name('referrals.store');
+    Route::patch('referrals/{referralPartner}', [FinanceController::class, 'referralUpdate'])->name('referrals.update');
+    Route::delete('referrals/{referralPartner}', [FinanceController::class, 'referralDestroy'])->name('referrals.destroy');
+    Route::post('referrals/pay', [FinanceController::class, 'payPartner'])->name('referrals.pay');
+    Route::post('referral-payments/{referralPayment}/paid', [FinanceController::class, 'markPaid'])->name('referral-payments.paid');
+    Route::get('student-payments', [FinanceController::class, 'studentPayments'])->name('student-payments.index');
+    Route::post('student-payments', [FinanceController::class, 'studentPaymentStore'])->name('student-payments.store');
+    Route::patch('student-payments/{studentPayment}', [FinanceController::class, 'studentPaymentUpdate'])->name('student-payments.update');
+    Route::post('commissions/{commission}/clawback', [FinanceController::class, 'clawback'])->name('commissions.clawback');
+    Route::get('revenue', [FinanceController::class, 'revenue'])->name('revenue.index');
+
+    // University nested
+    Route::get('universities/{university}/contacts', [UniversityController::class, 'contactsIndex'])->name('universities.contacts.index');
+    Route::post('universities/{university}/contacts', [UniversityController::class, 'contactStore'])->name('universities.contacts.store');
+    Route::match(['put', 'patch'], 'universities/{university}/contacts/{contact}', [UniversityController::class, 'contactUpdate'])->name('universities.contacts.update');
+    Route::delete('universities/{university}/contacts/{contact}', [UniversityController::class, 'contactDestroy'])->name('universities.contacts.destroy');
+    Route::get('universities/{university}/scholarships', [UniversityController::class, 'scholarshipsIndex'])->name('universities.scholarships.index');
+    Route::post('universities/{university}/scholarships', [UniversityController::class, 'scholarshipStore'])->name('universities.scholarships.store');
+    Route::match(['put', 'patch'], 'universities/{university}/scholarships/{scholarship}', [UniversityController::class, 'scholarshipUpdate'])->name('universities.scholarships.update');
+    Route::delete('universities/{university}/scholarships/{scholarship}', [UniversityController::class, 'scholarshipDestroy'])->name('universities.scholarships.destroy');
+    Route::get('courses/{course}/requirements', [CourseController::class, 'requirementsIndex'])->name('courses.requirements.index');
+    Route::post('courses/{course}/requirements', [CourseController::class, 'requirementStore'])->name('courses.requirements.store');
+    Route::delete('courses/{course}/requirements/{requirement}', [CourseController::class, 'requirementDestroy'])->name('courses.requirements.destroy');
 });
 
 /*
@@ -179,6 +277,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('crm')->group(function () {
     Route::delete('users/{user}', [SettingController::class, 'userDestroy'])->name('users.destroy');
 
     Route::get('audit-logs', [SettingController::class, 'auditIndex'])->name('audit.index');
+    Route::get('sessions', [SettingController::class, 'sessionsIndex'])->name('settings.sessions');
+    Route::delete('sessions/{id}', [SettingController::class, 'sessionTerminate'])->name('settings.sessions.terminate');
+    Route::get('login-history', [SettingController::class, 'loginHistory'])->name('settings.login-history');
     Route::get('notifications', [SettingController::class, 'notificationsIndex'])->name('notifications.index');
     Route::post('notifications/{notification}/read', [SettingController::class, 'notificationRead'])->name('notifications.read');
     Route::post('notifications-read-all', [SettingController::class, 'notificationsReadAll'])->name('notifications.read-all');
@@ -215,6 +316,79 @@ Route::middleware(['auth', 'role:admin'])->prefix('crm')->group(function () {
     Route::get('cms/faqs/{faq}/edit', [CmsController::class, 'faqEdit'])->name('cms.faqs.edit');
     Route::match(['put', 'patch'], 'cms/faqs/{faq}', [CmsController::class, 'faqUpdate'])->name('cms.faqs.update');
     Route::delete('cms/faqs/{faq}', [CmsController::class, 'faqDestroy'])->name('cms.faqs.destroy');
+
+    // CMS extensions: banners, menus, blog, forms, media
+    Route::get('cms/banners', [CmsController::class, 'bannersIndex'])->name('cms.banners.index');
+    Route::get('cms/banners/create', [CmsController::class, 'bannerCreate'])->name('cms.banners.create');
+    Route::post('cms/banners', [CmsController::class, 'bannerStore'])->name('cms.banners.store');
+    Route::get('cms/banners/{banner}', [CmsController::class, 'bannerShow'])->name('cms.banners.show');
+    Route::get('cms/banners/{banner}/edit', [CmsController::class, 'bannerEdit'])->name('cms.banners.edit');
+    Route::match(['put', 'patch'], 'cms/banners/{banner}', [CmsController::class, 'bannerUpdate'])->name('cms.banners.update');
+    Route::delete('cms/banners/{banner}', [CmsController::class, 'bannerDestroy'])->name('cms.banners.destroy');
+    Route::get('cms/menus', [CmsController::class, 'menusIndex'])->name('cms.menus.index');
+    Route::get('cms/menus/create', [CmsController::class, 'menuCreate'])->name('cms.menus.create');
+    Route::post('cms/menus', [CmsController::class, 'menuStore'])->name('cms.menus.store');
+    Route::get('cms/menus/{menu}', [CmsController::class, 'menuShow'])->name('cms.menus.show');
+    Route::get('cms/menus/{menu}/edit', [CmsController::class, 'menuEdit'])->name('cms.menus.edit');
+    Route::match(['put', 'patch'], 'cms/menus/{menu}', [CmsController::class, 'menuUpdate'])->name('cms.menus.update');
+    Route::delete('cms/menus/{menu}', [CmsController::class, 'menuDestroy'])->name('cms.menus.destroy');
+    Route::get('cms/menus/{menu}/items', [CmsController::class, 'menuItems'])->name('cms.menus.items');
+    Route::post('cms/menus/{menu}/items', [CmsController::class, 'menuItemStore'])->name('cms.menus.items.store');
+    Route::match(['put', 'patch'], 'cms/menus/{menu}/items/{item}', [CmsController::class, 'menuItemUpdate'])->name('cms.menus.items.update');
+    Route::delete('cms/menus/{menu}/items/{item}', [CmsController::class, 'menuItemDestroy'])->name('cms.menus.items.destroy');
+    Route::get('cms/blog-categories', [CmsController::class, 'blogCategoriesIndex'])->name('cms.blog-categories.index');
+    Route::post('cms/blog-categories', [CmsController::class, 'blogCategoryStore'])->name('cms.blog-categories.store');
+    Route::match(['put', 'patch'], 'cms/blog-categories/{category}', [CmsController::class, 'blogCategoryUpdate'])->name('cms.blog-categories.update');
+    Route::delete('cms/blog-categories/{category}', [CmsController::class, 'blogCategoryDestroy'])->name('cms.blog-categories.destroy');
+    Route::get('cms/blog', [CmsController::class, 'blogPostsIndex'])->name('cms.blog.index');
+    Route::get('cms/blog/create', [CmsController::class, 'blogPostCreate'])->name('cms.blog.create');
+    Route::post('cms/blog', [CmsController::class, 'blogPostStore'])->name('cms.blog.store');
+    Route::get('cms/blog/{post}', [CmsController::class, 'blogPostShow'])->name('cms.blog.show');
+    Route::get('cms/blog/{post}/edit', [CmsController::class, 'blogPostEdit'])->name('cms.blog.edit');
+    Route::match(['put', 'patch'], 'cms/blog/{post}', [CmsController::class, 'blogPostUpdate'])->name('cms.blog.update');
+    Route::delete('cms/blog/{post}', [CmsController::class, 'blogPostDestroy'])->name('cms.blog.destroy');
+    Route::get('cms/forms', [CmsController::class, 'formsIndex'])->name('cms.forms.index');
+    Route::get('cms/forms/create', [CmsController::class, 'formCreate'])->name('cms.forms.create');
+    Route::post('cms/forms', [CmsController::class, 'formStore'])->name('cms.forms.store');
+    Route::get('cms/forms/{form}', [CmsController::class, 'formShow'])->name('cms.forms.show');
+    Route::get('cms/forms/{form}/edit', [CmsController::class, 'formEdit'])->name('cms.forms.edit');
+    Route::match(['put', 'patch'], 'cms/forms/{form}', [CmsController::class, 'formUpdate'])->name('cms.forms.update');
+    Route::delete('cms/forms/{form}', [CmsController::class, 'formDestroy'])->name('cms.forms.destroy');
+    Route::get('cms/forms/{form}/submissions', [CmsController::class, 'formSubmissions'])->name('cms.forms.submissions.index');
+    Route::get('cms/forms/{form}/submissions/{submission}', [CmsController::class, 'formSubmissionShow'])->name('cms.forms.submissions.show');
+    Route::get('cms/media', [CmsController::class, 'mediaIndex'])->name('cms.media.index');
+    Route::post('cms/media', [CmsController::class, 'mediaStore'])->name('cms.media.store');
+    Route::match(['put', 'patch'], 'cms/media/{media}', [CmsController::class, 'mediaUpdate'])->name('cms.media.update');
+    Route::delete('cms/media/{media}', [CmsController::class, 'mediaDestroy'])->name('cms.media.destroy');
+
+    // Branches, GDPR, workflow, system
+    Route::resource('branches', \App\Http\Controllers\BranchController::class);
+    Route::get('gdpr/consents', [\App\Http\Controllers\GdprController::class, 'consents'])->name('gdpr.consents');
+    Route::get('gdpr/requests', [\App\Http\Controllers\GdprController::class, 'requests'])->name('gdpr.requests');
+    Route::post('gdpr/requests', [\App\Http\Controllers\GdprController::class, 'storeRequest'])->name('gdpr.requests.store');
+    Route::patch('gdpr/requests/{gdprRequest}', [\App\Http\Controllers\GdprController::class, 'updateRequest'])->name('gdpr.requests.update');
+    Route::get('gdpr/requests/{gdprRequest}/download', [\App\Http\Controllers\GdprController::class, 'downloadExport'])->name('gdpr.requests.download');
+    Route::get('gdpr/access-logs', [\App\Http\Controllers\GdprController::class, 'accessLogs'])->name('gdpr.access-logs');
+    Route::get('workflow/templates', [\App\Http\Controllers\WorkflowController::class, 'templates'])->name('workflow.templates');
+    Route::post('workflow/templates', [\App\Http\Controllers\WorkflowController::class, 'templateStore'])->name('workflow.templates.store');
+    Route::patch('workflow/templates/{template}', [\App\Http\Controllers\WorkflowController::class, 'templateUpdate'])->name('workflow.templates.update');
+    Route::delete('workflow/templates/{template}', [\App\Http\Controllers\WorkflowController::class, 'templateDestroy'])->name('workflow.templates.destroy');
+    Route::get('workflow/transitions', [\App\Http\Controllers\WorkflowController::class, 'transitions'])->name('workflow.transitions');
+    Route::post('workflow/transitions', [\App\Http\Controllers\WorkflowController::class, 'transitionStore'])->name('workflow.transitions.store');
+    Route::patch('workflow/transitions/{transition}', [\App\Http\Controllers\WorkflowController::class, 'transitionUpdate'])->name('workflow.transitions.update');
+    Route::delete('workflow/transitions/{transition}', [\App\Http\Controllers\WorkflowController::class, 'transitionDestroy'])->name('workflow.transitions.destroy');
+    Route::get('workflow/fields', [\App\Http\Controllers\WorkflowController::class, 'fields'])->name('workflow.fields');
+    Route::post('workflow/fields', [\App\Http\Controllers\WorkflowController::class, 'fieldStore'])->name('workflow.fields.store');
+    Route::patch('workflow/fields/{field}', [\App\Http\Controllers\WorkflowController::class, 'fieldUpdate'])->name('workflow.fields.update');
+    Route::delete('workflow/fields/{field}', [\App\Http\Controllers\WorkflowController::class, 'fieldDestroy'])->name('workflow.fields.destroy');
+    Route::get('system/health', [\App\Http\Controllers\SystemController::class, 'health'])->name('system.health');
+    Route::get('system/backups', [\App\Http\Controllers\SystemController::class, 'backups'])->name('system.backups');
+    Route::post('system/backups', [\App\Http\Controllers\SystemController::class, 'backupStore'])->name('system.backups.store');
+    Route::get('system/backups/{backup}/download', [\App\Http\Controllers\SystemController::class, 'backupDownload'])->name('system.backups.download');
+    Route::get('system/mail-logs', [\App\Http\Controllers\SystemController::class, 'mailLogs'])->name('system.mail-logs');
+    Route::get('system/queue', [\App\Http\Controllers\SystemController::class, 'queue'])->name('system.queue');
+    Route::post('system/queue/{failedId}/retry', [\App\Http\Controllers\SystemController::class, 'queueRetry'])->name('system.queue.retry');
+    Route::delete('system/queue/{id}', [\App\Http\Controllers\SystemController::class, 'queueDelete'])->name('system.queue.delete');
 });
 
 /*
@@ -235,4 +409,32 @@ Route::prefix('portal')->middleware(['auth', 'role:candidate'])->name('portal.')
     Route::get('/tasks', [PortalController::class, 'tasks'])->name('tasks');
     Route::get('/notifications', [PortalController::class, 'notifications'])->name('notifications');
     Route::post('/notifications/{notification}/read', [PortalController::class, 'notificationRead'])->name('notifications.read');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Finance panels + new reports (added only, existing routes untouched)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->prefix('crm')->group(function () {
+    // Referral partners
+    Route::get('referrals', [FinanceController::class, 'referrals'])->name('referrals.index');
+    Route::post('referrals', [FinanceController::class, 'referralStore'])->name('referrals.store');
+    Route::match(['put', 'patch'], 'referrals/{referralPartner}', [FinanceController::class, 'referralUpdate'])->name('referrals.update');
+    Route::delete('referrals/{referralPartner}', [FinanceController::class, 'referralDestroy'])->name('referrals.destroy');
+    Route::post('referrals/pay', [FinanceController::class, 'payPartner'])->name('referrals.pay');
+    Route::post('referral-payments/{referralPayment}/paid', [FinanceController::class, 'markPaid'])->name('referral-payments.paid');
+    // Student payments
+    Route::get('student-payments', [FinanceController::class, 'studentPayments'])->name('student-payments.index');
+    Route::post('student-payments', [FinanceController::class, 'studentPaymentStore'])->name('student-payments.store');
+    Route::match(['put', 'patch'], 'student-payments/{studentPayment}', [FinanceController::class, 'studentPaymentUpdate'])->name('student-payments.update');
+    // Clawback + revenue
+    Route::post('commissions/{commission}/clawback', [FinanceController::class, 'clawback'])->name('commissions.clawback');
+    Route::get('revenue', [FinanceController::class, 'revenue'])->name('revenue.index');
+    // New reports (CSV/XLSX via ?format=csv|xlsx, legacy export() untouched)
+    Route::get('reports/funnel', [ReportController::class, 'funnel'])->name('reports.funnel');
+    Route::get('reports/marketing', [ReportController::class, 'marketing'])->name('reports.marketing');
+    Route::get('reports/universities', [ReportController::class, 'universities'])->name('reports.universities');
+    Route::get('reports/deadlines', [ReportController::class, 'deadlines'])->name('reports.deadlines');
+    Route::get('reports/sla', [ReportController::class, 'sla'])->name('reports.sla');
 });

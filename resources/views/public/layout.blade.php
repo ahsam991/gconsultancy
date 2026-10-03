@@ -29,8 +29,8 @@
 <header>
     <div class="gc-topstrip small">
         <div class="container d-flex justify-content-between py-1">
-            <span>Hotline: +880-1XXX-XXXXXX &nbsp;|&nbsp; info@globalconsultancy.com</span>
-            <span class="d-none d-md-inline">Mon–Sat, 10am–7pm</span>
+            <span>Hotline: {{ setting('phone_london_local', '07402 993321') }} (London) · {{ setting('phone_bd1', '01744742686') }}, {{ setting('phone_bd2', '01935017746') }} (Bangladesh) &nbsp;|&nbsp; {{ setting('email_primary', 'info@gconsultancy.co.uk') }}</span>
+            <span class="d-none d-md-inline">{{ setting('business_hours', 'Always open') }} · <a href="{{ setting('social_facebook', 'https://www.facebook.com/GCEduLimited') }}" class="text-white">19K followers</a></span>
         </div>
     </div>
     <nav class="navbar navbar-expand-lg gc-navbar sticky-top" aria-label="Main navigation">
@@ -79,27 +79,36 @@
 <footer class="gc-footer mt-5">
     <div class="container py-5">
         <div class="row g-4">
-            <div class="col-12 col-md-4">
-                <h2 class="h5">Global Consultancy</h2>
-                <p class="small">Study abroad counselling, admissions, visas, accommodation and pre-departure support for UK, USA, Canada, Australia and Europe.</p>
+            <div class="col-12 col-md-3">
+                <h2 class="h5">{{ setting('company_name', 'Global Consultancy Education') }}</h2>
+                <p class="small">{{ setting('company_usp', '100% FREE Education Counselling and Application Processing') }}</p>
+                <p class="small">{{ setting('company_bio_short', '') }}</p>
             </div>
-            <div class="col-12 col-md-4">
-                <h2 class="h5">Contact</h2>
+            <div class="col-12 col-md-3">
+                <h2 class="h5">London Office</h2>
                 <address class="small mb-0">
-                    House 12, Road 5, Dhaka, Bangladesh<br>
-                    Phone: +880-1XXX-XXXXXX<br>
-                    Email: <a class="link-light" href="mailto:info@globalconsultancy.com">info@globalconsultancy.com</a>
+                    {{ setting('address_london', 'Suite 3, 2nd Floor, LMC Business Wing 38-44 Whitechapel Road, London, E1 1JX') }}<br>
+                    Phone: {{ setting('phone_london_local', '07402 993321') }}<br>
+                    Email: <a class="link-light" href="mailto:{{ setting('email_primary', 'info@gconsultancy.co.uk') }}">{{ setting('email_primary', 'info@gconsultancy.co.uk') }}</a>
                 </address>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
+                <h2 class="h5">Khulna Office</h2>
+                <address class="small mb-0">
+                    {{ setting('address_khulna', 'House No 52, Nirala R/A, Khulna') }}<br>
+                    Phone: {{ setting('phone_bd1', '01744742686') }}, {{ setting('phone_bd2', '01935017746') }}<br>
+                    <span class="text-white-50">Areas: Khulna, Bagerhat, Satkhira, Sonadanga, Khalishpur</span>
+                </address>
+            </div>
+            <div class="col-12 col-md-3">
                 <h2 class="h5">Follow us</h2>
                 <p class="small">
-                    <a class="link-light me-3" href="https://facebook.com" rel="noopener">Facebook</a>
-                    <a class="link-light me-3" href="https://instagram.com" rel="noopener">Instagram</a>
-                    <a class="link-light me-3" href="https://linkedin.com" rel="noopener">LinkedIn</a>
-                    <a class="link-light" href="https://youtube.com" rel="noopener">YouTube</a>
+                    <a class="link-light me-3" href="{{ setting('social_facebook', 'https://www.facebook.com/GCEduLimited') }}" rel="noopener">Facebook (19K)</a>
+                    <a class="link-light me-3" href="{{ setting('social_instagram', '#') }}" rel="noopener">Instagram</a>
+                    <a class="link-light me-3" href="{{ setting('social_twitter', '#') }}" rel="noopener">X</a>
+                    <a class="link-light" href="{{ setting('social_youtube', '#') }}" rel="noopener">YouTube</a>
                 </p>
-                <p class="small"><a class="link-light" href="{{ url('/contact') }}">Contact</a> · <a class="link-light" href="{{ url('/apply') }}">Apply Online</a></p>
+                <p class="small"><a class="link-light" href="{{ url('/contact') }}">Contact</a> · <a class="link-light" href="{{ url('/apply-online') }}">Apply Online</a> · <a class="link-light" href="{{ url('/blog') }}">Visa Success Stories</a></p>
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Testimonial extends Model
 {
-    protected $fillable = ['candidate_name', 'country', 'university', 'rating', 'content', 'photo', 'is_featured', 'is_published'];
+    protected $fillable = ['candidate_name', 'country', 'university', 'rating', 'content', 'photo', 'is_featured', 'is_published', 'visa_success_story', 'visa_type', 'country_flag', 'course'];
 
     protected $casts = ['is_featured' => 'boolean', 'is_published' => 'boolean'];
 

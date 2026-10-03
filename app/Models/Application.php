@@ -95,6 +95,16 @@ class Application extends Model
         return $this->hasOne(Commission::class);
     }
 
+    public function fees(): HasMany
+    {
+        return $this->hasMany(ApplicationFee::class);
+    }
+
+    public function offerConditions()
+    {
+        return $this->hasManyThrough(OfferCondition::class, Offer::class);
+    }
+
     public function scopeByStatus($query, $status)
     {
         return $query->where('status', $status);

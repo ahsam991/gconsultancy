@@ -63,6 +63,18 @@
             @can('appointments.view')
             <li class="nav-item"><a class="nav-link {{ request()->routeIs('appointments.*') ? 'active' : '' }}" href="{{ Route::has('appointments.index') ? route('appointments.index') : '#' }}"><i class="fa-solid fa-calendar-days me-2"></i>Appointments</a></li>
             @endcan
+            @can('candidates.view')
+            <li class="nav-item"><a class="nav-link {{ request()->routeIs('counselling.*') ? 'active' : '' }}" href="{{ Route::has('counselling.index') ? route('counselling.index') : '#' }}"><i class="fa-solid fa-comments me-2"></i>Counselling</a></li>
+            @endcan
+            @can('tasks.view')
+            <li class="nav-item"><a class="nav-link {{ request()->routeIs('messages.*') ? 'active' : '' }}" href="{{ Route::has('messages.index') ? route('messages.index') : '#' }}"><i class="fa-solid fa-envelope me-2"></i>Messages</a></li>
+            @endcan
+            @can('appointments.view')
+            <li class="nav-item"><a class="nav-link {{ request()->routeIs('calendar.*') ? 'active' : '' }}" href="{{ Route::has('calendar.index') ? route('calendar.index') : '#' }}"><i class="fa-solid fa-calendar-week me-2"></i>Calendar</a></li>
+            @endcan
+            @can('tasks.view')
+            <li class="nav-item"><a class="nav-link {{ request()->routeIs('automation.*') ? 'active' : '' }}" href="{{ Route::has('automation.rules') ? route('automation.rules') : '#' }}"><i class="fa-solid fa-robot me-2"></i>Automation</a></li>
+            @endcan
             @can('commissions.view')
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="collapse" href="#sbFin"><i class="fa-solid fa-coins me-2"></i>Finance</a>
@@ -94,8 +106,15 @@
                     @if(Route::has('users.index'))<li><a class="nav-link" href="{{ route('users.index') }}">Users</a></li>@endif
                     @if(Route::has('teams.index'))<li><a class="nav-link" href="{{ route('teams.index') }}">Teams</a></li>@endif
                     @if(Route::has('audit.index'))<li><a class="nav-link" href="{{ route('audit.index') }}">Audit Log</a></li>@endif
+                    @if(Route::has('settings.sessions'))<li><a class="nav-link" href="{{ route('settings.sessions') }}">Sessions</a></li>@endif
+                    @if(Route::has('settings.login-history'))<li><a class="nav-link" href="{{ route('settings.login-history') }}">Login History</a></li>@endif
                     @if(Route::has('notifications.index'))<li><a class="nav-link" href="{{ route('notifications.index') }}">Notifications</a></li>@endif
                     @if(Route::has('email-templates.index'))<li><a class="nav-link" href="{{ route('email-templates.index') }}">Email Templates</a></li>@endif
+                    @if(Route::has('branches.index'))<li><a class="nav-link" href="{{ route('branches.index') }}">Branches</a></li>@endif
+                    @if(Route::has('gdpr.requests'))<li><a class="nav-link" href="{{ route('gdpr.requests') }}">GDPR</a></li>@endif
+                    @if(Route::has('workflow.templates'))<li><a class="nav-link" href="{{ route('workflow.templates') }}">Workflows</a></li>@endif
+                    @if(Route::has('system.health'))<li><a class="nav-link" href="{{ route('system.health') }}">System Health</a></li>@endif
+                    @if(Route::has('system.backups'))<li><a class="nav-link" href="{{ route('system.backups') }}">Backups</a></li>@endif
                 </ul>
             </li>
             @endcan

@@ -10,7 +10,7 @@ class CandidateDocument extends Model
 {
     use \Illuminate\Database\Eloquent\SoftDeletes;
 
-    protected $fillable = ['candidate_id', 'application_id', 'document_type_id', 'original_filename', 'stored_path', 'mime', 'size_kb', 'verification_status', 'version', 'uploaded_by', 'verified_by', 'verified_at', 'rejection_reason', 'notes'];
+    protected $fillable = ['candidate_id', 'application_id', 'document_type_id', 'original_filename', 'stored_path', 'mime', 'size_kb', 'verification_status', 'version', 'uploaded_by', 'verified_by', 'verified_at', 'rejection_reason', 'notes', 'expiry_date'];
 
     protected $casts = ['verified_at' => 'datetime'];
 

@@ -90,6 +90,25 @@ class ApplicationStatusService
         $fresh = $app->fresh();
         NotifyService::applicationStatusChanged($fresh);
 
+        if ($newStatus === 'VISA_APPROVED') {
+            try {
+                $fresh->loadMissing(['candidate', 'university', 'course']);
+                $c = $fresh->candidate;
+                \App\Models\Testimonial::firstOrCreate(
+                    ['candidate_name' => trim(($c->first_name ?? '').' '.($c->last_name ?? '')), 'university' => $fresh->university->name ?? ''],
+                    [
+                        'country' => $fresh->candidate->preferred_destination ?? 'UK',
+                        'country_flag' => 'GB', 'course' => $fresh->course->name ?? '',
+                        'rating' => 5, 'visa_success_story' => true, 'visa_type' => 'Student',
+                        'content' => 'DRAFT: UK STUDENT VISA SUCCESS story for social media. Add student photo before publishing.',
+                        'is_featured' => false, 'is_published' => false,
+                    ]
+                );
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        }
+
         return $fresh;
     }
 

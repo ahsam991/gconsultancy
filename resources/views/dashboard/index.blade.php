@@ -55,8 +55,8 @@ var v=@json(array_values(($appsByMonth ?? collect())->toArray() ?: [0]));
 var vl=@json(array_keys(($visaOutcomes ?? collect())->toArray() ?: ['No data'=>0]));
 var vv=@json(array_values(($visaOutcomes ?? collect())->toArray() ?: [0]));
 if(window.Chart){
-new Chart(document.getElementById('appsChart'),{type:'bar',data:{labels:m,datasets:[{data:v,backgroundColor:'#1e40af',borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}}}});
-new Chart(document.getElementById('visaChart'),{type:'doughnut',data:{labels:vl,datasets:[{data:vv,backgroundColor:['#166534','#991b1b','#1e40af'],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,cutout:'62%'}});
+new Chart(document.getElementById('appsChart'),{type:'bar',data:{labels:m,datasets:[{data:v,backgroundColor:'#0B2C5C',borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}}}});
+new Chart(document.getElementById('visaChart'),{type:'doughnut',data:{labels:vl,datasets:[{data:vv,backgroundColor:['#166534','#991b1b','#0B2C5C'],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,cutout:'62%'}});
 }})();
 </script>
 @endpush

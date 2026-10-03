@@ -89,6 +89,56 @@ class Candidate extends Model
         return $this->hasMany(Enrolment::class);
     }
 
+    public function consents(): HasMany
+    {
+        return $this->hasMany(GdprConsent::class);
+    }
+
+    public function gdprRequests(): HasMany
+    {
+        return $this->hasMany(GdprRequest::class);
+    }
+
+    public function counsellingSessions(): HasMany
+    {
+        return $this->hasMany(CounsellingSession::class);
+    }
+
+    public function accommodations(): HasMany
+    {
+        return $this->hasMany(Accommodation::class);
+    }
+
+    public function predeparture()
+    {
+        return $this->hasOne(PredepartureChecklist::class);
+    }
+
+    public function arrival()
+    {
+        return $this->hasOne(Arrival::class);
+    }
+
+    public function sponsorships(): HasMany
+    {
+        return $this->hasMany(Sponsorship::class);
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    public function savedCourses(): HasMany
+    {
+        return $this->hasMany(SavedCourse::class);
+    }
+
+    public function shortlists(): HasMany
+    {
+        return $this->hasMany(CourseShortlist::class);
+    }
+
     public function getFullNameAttribute(): string
     {
         return trim("{$this->first_name} {$this->last_name}");
