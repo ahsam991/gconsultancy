@@ -5,8 +5,8 @@
    transform/opacity motion only, prefers-reduced-motion respected.
    ============================================================ */
 :root{
-  --gc-ink:#0B2C5C;
-  --gc-ink-2:#123a75;
+  --gc-ink:#0f172a;
+  --gc-ink-2:#1e293b;
   --gc-ink-soft:#3d5170;
   --gc-paper:#faf8f3;
   --gc-card:#ffffff;
@@ -26,7 +26,7 @@
   --gc-info-bg:#e8effc;
   --gc-mute:#6b7690;
   --gc-mute-bg:#eef0f4;
-  --gc-display:"Newsreader",Georgia,"Times New Roman",serif;
+  --gc-display:"Instrument Serif",Georgia,serif;
   --gc-ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   --gc-z-nav:100;
   --gc-z-drop:200;
@@ -38,7 +38,8 @@
 /* ---------- base ---------- */
 body{font-family:var(--gc-ui);background:var(--gc-paper);color:var(--gc-ink);-webkit-font-smoothing:antialiased}
 a{text-decoration:none;color:inherit}
-h1,h2,.gc-display{font-family:var(--gc-display);text-wrap:balance;letter-spacing:0}
+h1,h2,.gc-display{font-family:var(--gc-display);font-weight:400;text-wrap:balance;letter-spacing:-.02em}
+.gc-hero h1{font-size:clamp(48px,6vw,80px);line-height:.95;letter-spacing:-.03em}
 p,.gc-body-text{text-wrap:pretty}
 .tnum,.table,.stat-num,.badge{font-variant-numeric:tabular-nums}
 ::selection{background:var(--gc-accent);color:#fff}
@@ -52,7 +53,7 @@ p,.gc-body-text{text-wrap:pretty}
 .card-header{background:var(--gc-card);border-bottom:1px solid var(--gc-line-soft);font-weight:600}
 
 /* one accent per view: primary buttons */
-.btn-primary{--bs-btn-bg:var(--gc-ink);--bs-btn-border-color:var(--gc-ink);--bs-btn-hover-bg:var(--gc-ink-2);--bs-btn-hover-border-color:var(--gc-ink-2);--bs-btn-color:#fff;--bs-btn-hover-color:#fff}
+.btn-primary{--bs-btn-bg:#000;--bs-btn-border-color:#000;--bs-btn-hover-bg:#1e293b;--bs-btn-hover-border-color:#1e293b;--bs-btn-color:#fff;--bs-btn-hover-color:#fff}
 .btn-brass{--bs-btn-bg:var(--gc-brass);--bs-btn-border-color:var(--gc-brass);--bs-btn-hover-bg:#e67e00;--bs-btn-hover-border-color:#e67e00;--bs-btn-color:var(--gc-ink);--bs-btn-hover-color:var(--gc-ink);--bs-btn-font-weight:600}
 .btn-outline-brass{--bs-btn-color:#92400e;--bs-btn-border-color:var(--gc-brass);--bs-btn-hover-bg:var(--gc-brass);--bs-btn-hover-border-color:var(--gc-brass);--bs-btn-hover-color:var(--gc-ink)}
 
@@ -188,3 +189,11 @@ img{outline:1px solid rgba(0,0,0,.1);outline-offset:-1px}
 
 /* standalone crest avatar (initial fallback when no photo uploaded) */
 .gc-crest{border-radius:9px;background:var(--gc-ink);color:#f3ead3;display:inline-flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+
+/* ---------- editorial motion: fade-and-rise (Minimalist Editorial) ---------- */
+@keyframes gc-fade-rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.anim{opacity:0}
+.anim.in{animation:gc-fade-rise .8s ease-out forwards}
+.anim.d1{animation-delay:.2s}.anim.d2{animation-delay:.4s}.anim.d3{animation-delay:.6s}
+.reveal{opacity:0}
+.reveal.in{animation:gc-fade-rise .8s ease-out forwards}

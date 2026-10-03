@@ -6,13 +6,13 @@ $c = $counts ?? [];
 $base = max(1, $funnelBase ?? 1);
 $stageLabels = ['SUBMITTED'=>'Submitted','CONDITIONAL_OFFER'=>'Conditional Offer','UNCONDITIONAL_OFFER'=>'Unconditional Offer','DEPOSIT_PAID'=>'Deposit Paid','CAS_ISSUED'=>'CAS Issued','VISA_APPROVED'=>'Visa Approved','ENROLLED'=>'Enrolled'];
 @endphp
-<div class="d-flex justify-content-between align-items-end mb-1 flex-wrap gap-2">
+<div class="d-flex justify-content-between align-items-end mb-1 flex-wrap gap-2 anim">
     <div><span class="gc-eyebrow blue">Adviser desk · {{ ucfirst($role ?? 'team') }} view</span>
     <h1 class="h3 mb-0 gc-display">Admissions Pipeline &amp; Case Registry</h1></div>
     <span class="text-muted small tnum">{{ now()->format('l, d M Y') }}</span>
 </div>
 
-<div class="gc-stats mt-3 mb-3">
+<div class="gc-stats mt-3 mb-3 reveal">
     <div class="gc-stat"><div class="v tnum">{{ $c['candidates'] ?? 0 }}</div><div class="l">Candidates</div><div class="s">active caseload</div></div>
     <div class="gc-stat"><div class="v tnum">{{ $c['applications'] ?? 0 }}</div><div class="l">Applications</div><div class="s">in pipeline</div></div>
     <div class="gc-stat"><div class="v tnum">{{ $c['offers'] ?? 0 }}</div><div class="l">Offers</div><div class="s">conditional + unconditional</div></div>

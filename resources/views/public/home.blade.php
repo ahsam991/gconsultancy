@@ -5,16 +5,16 @@
 {{-- HERO: asymmetric, one intent --}}
 <section class="gc-hero">
 <div class="container py-5"><div class="row g-4 align-items-center">
-<div class="col-lg-7 gc-rise">
+<div class="col-lg-7 anim">
     <span class="gc-eyebrow" style="color:#e8c88a">{{ setting('company_usp', '100% FREE Education Counselling') }} · UK · USA · Canada · Australia · EU · Malaysia · Finland</span>
-    <h1 class="gc-rise gc-rise-1">Dream to study abroad? Find the right path with Global Consultancy!</h1>
+    <h1 class="anim d1">Dream to study abroad? Find the right path with Global Consultancy!</h1>
     <hr class="gc-hero-rule">
-    <p class="lead">{{ setting('company_tagline', 'Your Dream to Study Abroad - Just Click & Achieve It') }} {{ setting('company_bio_short', '') }}</p>
-    <div class="d-flex gap-2 flex-wrap mt-3">
+    <p class="lead anim d1">{{ setting('company_tagline', 'Your Dream to Study Abroad - Just Click & Achieve It') }} {{ setting('company_bio_short', '') }}</p>
+    <div class="d-flex gap-2 flex-wrap mt-3 anim d2">
         <a href="{{ Route::has('appointment.book') ? route('appointment.book') : url('/book-appointment') }}" class="btn btn-primary btn-lg">Book free counselling</a>
         <a href="{{ Route::has('apply') ? route('apply') : url('/apply-online') }}" class="btn btn-outline-light btn-lg">Apply online</a>
     </div>
-    <div class="gc-proof">
+    <div class="gc-proof anim d3">
         <div><div class="n tnum">{{ number_format($stats['offers'] ?? 0) }}+</div><div class="l">Offers secured</div></div>
         <div><div class="n tnum">{{ $stats['visa_rate'] ?? 0 }}%</div><div class="l">Proven visa record</div></div>
         <div><div class="n tnum">19K</div><div class="l">Facebook followers</div></div>

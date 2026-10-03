@@ -4,7 +4,7 @@
 @section('content')
 <div class="container-fluid">
     <span class="gc-eyebrow blue">Candidate portal</span>
-    <h1 class="gc-display">Good day, {{ auth()->user()->name ?? 'Student' }}</h1>
+    <h1 class="gc-display anim">Good day, {{ auth()->user()->name ?? 'Student' }}</h1>
 
     @php
         $steps = config('consultancy.journey_steps', ['profile','application','offer','deposit','cas','visa','enrolment']);
