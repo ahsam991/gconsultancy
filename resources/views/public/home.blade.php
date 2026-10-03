@@ -5,9 +5,9 @@
 {{-- HERO: asymmetric, one intent --}}
 <section class="gc-hero">
 <div class="container py-5"><div class="row g-4 align-items-center">
-<div class="col-lg-7">
-    <span class="gc-eyebrow">{{ setting('company_usp', '100% FREE Education Counselling') }} · UK · USA · Canada · Australia · EU · Malaysia · Finland</span>
-    <h1>Dream to study abroad? Find the right path with Global Consultancy!</h1>
+<div class="col-lg-7 gc-rise">
+    <span class="gc-eyebrow" style="color:#e8c88a">{{ setting('company_usp', '100% FREE Education Counselling') }} · UK · USA · Canada · Australia · EU · Malaysia · Finland</span>
+    <h1 class="gc-rise gc-rise-1">Dream to study abroad? Find the right path with Global Consultancy!</h1>
     <hr class="gc-hero-rule">
     <p class="lead">{{ setting('company_tagline', 'Your Dream to Study Abroad - Just Click & Achieve It') }} {{ setting('company_bio_short', '') }}</p>
     <div class="d-flex gap-2 flex-wrap mt-3">
@@ -22,11 +22,16 @@
     </div>
 </div>
 <div class="col-lg-5">
-    <div class="gc-hero-card p-4">
-        <span class="gc-eyebrow blue">Your application journey</span>
+    @if(!empty($heroBanner->image))
+    <img src="{{ asset('storage/' . $heroBanner->image) }}" alt="{{ $heroBanner->title ?? 'Study abroad' }}" class="img-fluid gc-arch mb-3" loading="eager" fetchpriority="high">
+    @else
+    <svg class="img-fluid gc-arch mb-3" viewBox="0 0 400 220" role="img" aria-label="Graduation cap over university arch"><rect width="400" height="220" fill="#123a75"/><circle cx="320" cy="40" r="60" fill="#FF8C00" opacity=".85"/><rect x="60" y="120" width="280" height="100" rx="8" fill="#0B2C5C"/><rect x="90" y="60" width="220" height="14" rx="7" fill="#f3ead3"/><path d="M200 30 120 60l80 30 80-30z" fill="#f3ead3"/><rect x="268" y="66" width="8" height="34" fill="#f3ead3"/><circle cx="272" cy="104" r="7" fill="#FF8C00"/><rect x="110" y="140" width="120" height="12" rx="6" fill="#f3ead3" opacity=".7"/><rect x="110" y="160" width="180" height="12" rx="6" fill="#f3ead3" opacity=".45"/></svg>
+    @endif
+    <div class="gc-hero-card gc-glass-dark text-white p-4">
+        <span class="gc-eyebrow" style="color:#e8c88a">Your application journey</span>
         <ol class="list-unstyled mb-0">
         @foreach(['Profile & documents','Offer received','CAS issued','Visa granted','Enrolled'] as $i => $s)
-        <li class="d-flex align-items-center gap-2 py-2 {{ $loop->last ? '' : 'border-bottom' }}" style="border-color:var(--gc-line-soft)!important">
+        <li class="d-flex align-items-center gap-2 py-2 {{ $loop->last ? '' : 'border-bottom border-white border-opacity-25' }}">
             <span class="gc-step-num" style="width:30px;height:30px;font-size:.85rem">{{ $i + 1 }}</span>
             <span class="fw-semibold">{{ $s }}</span>
             @if($loop->last)<span class="gc-stamp ok sealed ms-auto">Sealed</span>@endif
@@ -89,7 +94,10 @@
 <a href="{{ url('/universities') }}" class="btn btn-sm btn-outline-primary">All universities</a></div>
 <div class="row g-3 mt-1">
 @foreach($universities as $u)
-<div class="col-md-4"><div class="gc-dest-card"><div class="flag" style="font-size:1.1rem">{{ $u->name }}</div>
+<div class="col-md-4"><div class="gc-dest-card"><div class="d-flex align-items-center gap-2 mb-1">
+@if(!empty($u->logo))<img src="{{ asset('storage/' . $u->logo) }}" alt="{{ $u->name }} logo" width="40" height="40" style="width:40px;height:40px;object-fit:contain;border-radius:8px" loading="lazy">
+@else<span class="gc-crest" aria-hidden="true" style="width:40px;height:40px;font-size:.8rem">{{ strtoupper(substr($u->name, 0, 1)) }}</span>@endif
+<div class="flag" style="font-size:1.1rem">{{ $u->name }}</div></div>
 <p class="small text-muted mb-2">{{ $u->city ?? '' }}{{ isset($u->country) ? ' · ' . (is_string($u->country) ? $u->country : ($u->country->name ?? '')) : '' }}</p>
 <a href="{{ url('/universities/' . $u->id) }}" class="small fw-semibold" style="color:var(--gc-accent)">View courses →</a></div></div>
 @endforeach
@@ -120,7 +128,10 @@
 <div class="row g-3 mt-1">
 @foreach($testimonials as $t)
 <div class="col-md-4"><figure class="gc-dest-card mb-0"><blockquote class="small">“{{ \Illuminate\Support\Str::limit($t->content ?? '', 160) }}”</blockquote>
-<figcaption class="small fw-semibold mt-2">{{ $t->name ?? $t->candidate_name ?? 'Student' }} <span class="text-muted fw-normal">· {{ $t->country ?? $t->university ?? '' }}</span></figcaption></figure></div>
+<figcaption class="d-flex align-items-center gap-2 mt-2">
+@if(!empty($t->photo))<img src="{{ asset('storage/' . $t->photo) }}" alt="Photo of {{ $t->candidate_name ?? 'student' }}" width="36" height="36" style="width:36px;height:36px;object-fit:cover;border-radius:50%" loading="lazy">
+@else<span class="gc-crest" aria-hidden="true" style="width:36px;height:36px;font-size:.75rem;border-radius:50%">{{ strtoupper(substr($t->candidate_name ?? 'S', 0, 1)) }}</span>@endif
+<span class="small fw-semibold">{{ $t->name ?? $t->candidate_name ?? 'Student' }} <span class="text-muted fw-normal">· {{ $t->country ?? $t->university ?? '' }}</span></span></figcaption></figure></div>
 @endforeach
 </div>
 </div></section>

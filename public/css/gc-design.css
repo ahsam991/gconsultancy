@@ -44,17 +44,17 @@ p,.gc-body-text{text-wrap:pretty}
 ::selection{background:var(--gc-accent);color:#fff}
 
 /* eyebrow: small-caps section label */
-.gc-eyebrow{display:block;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gc-brass);margin-bottom:.5rem}
-.gc-eyebrow.blue{color:var(--gc-accent)}
+.gc-eyebrow{display:block;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#92400e;margin-bottom:.5rem;white-space:nowrap}
+.gc-eyebrow.blue{color:var(--gc-ink)}
 
 /* warm hairlines on cards */
 .card{border:1px solid var(--gc-line);border-radius:var(--gc-r);box-shadow:0 1px 2px rgba(22,35,63,.05)}
 .card-header{background:var(--gc-card);border-bottom:1px solid var(--gc-line-soft);font-weight:600}
 
 /* one accent per view: primary buttons */
-.btn-primary{--bs-btn-bg:var(--gc-accent);--bs-btn-border-color:var(--gc-accent);--bs-btn-hover-bg:var(--gc-accent-ink);--bs-btn-hover-border-color:var(--gc-accent-ink)}
-.btn-brass{--bs-btn-bg:var(--gc-brass);--bs-btn-border-color:var(--gc-brass);--bs-btn-hover-bg:#8f4207;--bs-btn-hover-border-color:#8f4207;--bs-btn-color:#fff;--bs-btn-hover-color:#fff}
-.btn-outline-brass{--bs-btn-color:var(--gc-brass);--bs-btn-border-color:var(--gc-brass);--bs-btn-hover-bg:var(--gc-brass);--bs-btn-hover-border-color:var(--gc-brass);--bs-btn-hover-color:#fff}
+.btn-primary{--bs-btn-bg:var(--gc-ink);--bs-btn-border-color:var(--gc-ink);--bs-btn-hover-bg:var(--gc-ink-2);--bs-btn-hover-border-color:var(--gc-ink-2);--bs-btn-color:#fff;--bs-btn-hover-color:#fff}
+.btn-brass{--bs-btn-bg:var(--gc-brass);--bs-btn-border-color:var(--gc-brass);--bs-btn-hover-bg:#e67e00;--bs-btn-hover-border-color:#e67e00;--bs-btn-color:var(--gc-ink);--bs-btn-hover-color:var(--gc-ink);--bs-btn-font-weight:600}
+.btn-outline-brass{--bs-btn-color:#92400e;--bs-btn-border-color:var(--gc-brass);--bs-btn-hover-bg:var(--gc-brass);--bs-btn-hover-border-color:var(--gc-brass);--bs-btn-hover-color:var(--gc-ink)}
 
 /* ---------- public top strip + nav ---------- */
 .gc-topstrip{background:var(--gc-ink);color:#e9e4d8}
@@ -158,3 +158,33 @@ p,.gc-body-text{text-wrap:pretty}
 }
 .gc-fade-in{animation:gcIn .18s ease-out}
 @keyframes gcIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* ---------- apple glass (better-interface review) ---------- */
+.gc-glass{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border:1px solid rgba(255,255,255,.6);box-shadow:0 8px 28px rgba(11,44,92,.12)}
+.gc-glass-dark{background:rgba(22,35,63,.62);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border:1px solid rgba(255,255,255,.14);box-shadow:0 8px 28px rgba(0,0,0,.25)}
+.gc-navbar{background:rgba(250,248,243,.78);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4)}
+.gc-hero-card{border-radius:16px} /* outer 16 = inner 12 + ~4 padding zones */
+
+/* ---------- focus, press, motion discipline ---------- */
+:focus-visible{outline:2px solid var(--gc-accent);outline-offset:2px;border-radius:4px}
+.btn{transition-property:transform,background-color,border-color,box-shadow;transition-duration:150ms;transition-timing-function:ease-out}
+.btn:active{scale:.96}
+.gc-dest-card{transition-property:transform,box-shadow;transition-duration:180ms;transition-timing-function:ease-out}
+.nav-link{transition-property:color,background-color;transition-duration:150ms;transition-timing-function:ease-out}
+@media(prefers-reduced-motion:no-preference){
+  .gc-rise{animation:gcRise .45s ease-out both}
+  .gc-rise-1{animation-delay:.08s}.gc-rise-2{animation-delay:.16s}.gc-rise-3{animation-delay:.24s}
+}
+@keyframes gcRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ---------- images: outlines + art direction ---------- */
+img{outline:1px solid rgba(0,0,0,.1);outline-offset:-1px}
+.gc-dotgrid{background-image:radial-gradient(rgba(11,44,92,.14) 1px,transparent 1px);background-size:18px 18px}
+.gc-arch{border-radius:999px 999px 14px 14px}
+@media(max-width:767px){
+  .form-control,.form-select{font-size:16px}
+  .btn{min-height:44px}
+}
+
+/* standalone crest avatar (initial fallback when no photo uploaded) */
+.gc-crest{border-radius:9px;background:var(--gc-ink);color:#f3ead3;display:inline-flex;align-items:center;justify-content:center;font-weight:700;flex:none}

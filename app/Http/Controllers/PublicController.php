@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Banner;
 use App\Models\Country;
 use App\Models\Course;
 use App\Models\Faq;
@@ -27,7 +28,8 @@ class PublicController extends Controller
             'visa_rate' => ($v = VisaCase::whereIn('result', ['Approved', 'Refused'])->count()) ? (int) round(VisaCase::where('result', 'Approved')->count() / $v * 100) : 0,
             'partners' => University::where('active', true)->count(),
         ];
-        return view('public.home', compact('universities', 'courses', 'testimonials', 'faqs', 'stats'));
+        $heroBanner = Banner::where('location', 'home_hero')->where('active', true)->orderBy('sort_order')->first();
+        return view('public.home', compact('universities', 'courses', 'testimonials', 'faqs', 'stats', 'heroBanner'));
     }
 
     public function about()
