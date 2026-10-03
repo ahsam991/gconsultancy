@@ -80,7 +80,7 @@
 <div class="table-responsive"><table class="table table-hover align-middle">
 <thead><tr><th>Condition</th><th>Required</th><th>Submitted</th><th>Verified</th><th>Completed</th><th>Deadline</th><th class="text-end">Actions</th></tr></thead>
 <tbody>
-@forelse(($offer->conditions ?? []) as $cond)
+@forelse(($conditions ?? []) as $cond)
 <tr class="{{ $cond->is_completed ? 'table-success' : '' }}">
     <td>{{ $cond->condition_text }}@if($cond->notes)<br><span class="small text-muted">{{ $cond->notes }}</span>@endif</td>
     <td>@if($cond->is_required)<span class="badge bg-danger">Required</span>@else<span class="badge bg-secondary">Optional</span>@endif</td>

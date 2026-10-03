@@ -140,12 +140,14 @@ class JourneyController extends Controller
     public function offerShow(Request $request, $id)
     {
         abort_if($request->user()?->role?->name === 'candidate', 403);
-        $offer = Offer::with(['conditions', 'application.candidate', 'application.university', 'application.course'])->findOrFail($id);
+        $offer = Offer::with(['application.candidate', 'application.university', 'application.course'])->findOrFail($id);
         $this->ensureOfferVisible($request, $offer);
-        $requiredTotal = $offer->conditions->where('is_required', true)->count();
-        $requiredDone = $offer->conditions->where('is_required', true)->where('is_completed', true)->count();
+        // NOTE: offers.conditions TEXT column shadows the conditions() relation — query explicitly.
+        $conditions = \App\Models\OfferCondition::where('offer_id', $offer->id)->orderBy('id')->get();
+        $requiredTotal = $conditions->where('is_required', true)->count();
+        $requiredDone = $conditions->where('is_required', true)->where('is_completed', true)->count();
         $progress = $requiredTotal > 0 ? (int) round($requiredDone / $requiredTotal * 100) : 0;
-        return view('journey.offer-show', compact('offer', 'requiredTotal', 'requiredDone', 'progress'));
+        return view('journey.offer-show', compact('offer', 'conditions', 'requiredTotal', 'requiredDone', 'progress'));
     }
 
     public function conditionStore(Request $request, $id)
