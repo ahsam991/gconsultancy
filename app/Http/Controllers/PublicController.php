@@ -71,6 +71,12 @@ class PublicController extends Controller
         return view('public.contact');
     }
 
+    public function page(string $slug)
+    {
+        $page = \App\Models\WebsitePage::where('slug', $slug)->where('is_published', true)->firstOrFail();
+        return view('public.page', compact('page'));
+    }
+
     public function contactSubmit(Request $request)
     {
         return $this->enquirySubmit($request);

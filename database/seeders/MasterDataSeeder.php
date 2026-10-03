@@ -143,6 +143,9 @@ class MasterDataSeeder extends Seeder
             ['slug' => 'application-status', 'name' => 'Application Status Changed', 'subject' => 'Your application {{app_uid}} is now {{status}}', 'body' => 'Hi {{name}}, your application {{app_uid}} for {{course}} at {{university}} moved to {{status}}.', 'variables' => 'name,app_uid,status,course,university'],
             ['slug' => 'lead-assigned', 'name' => 'Lead Assigned', 'subject' => 'New lead assigned: {{name}}', 'body' => 'A new lead {{name}} ({{email}}) was assigned to you.', 'variables' => 'name,email'],
             ['slug' => 'document-verified', 'name' => 'Document Verified', 'subject' => 'Your document was verified', 'body' => 'Hi {{name}}, your document {{document}} has been verified.', 'variables' => 'name,document'],
+            ['slug' => 'deposit-reminder', 'name' => 'Deposit Reminder', 'subject' => 'Deposit due for {{app_uid}}', 'body' => 'Hi {{name}}, your deposit of {{amount}} for {{app_uid}} is due on {{due_date}}.', 'variables' => 'name,app_uid,amount,due_date'],
+            ['slug' => 'appointment-confirmation', 'name' => 'Appointment Confirmation', 'subject' => 'Appointment confirmed: {{date}}', 'body' => 'Hi {{name}}, your {{type}} appointment is confirmed for {{date}}. {{location}}', 'variables' => 'name,type,date,location'],
+            ['slug' => 'task-reminder', 'name' => 'Task Reminder', 'subject' => 'Reminder: {{title}} due {{due}}', 'body' => 'Hi {{name}}, task {{title}} is due on {{due}}.', 'variables' => 'name,title,due'],
         ] as $tpl) {
             EmailTemplate::firstOrCreate(['slug' => $tpl['slug']], $tpl + ['active' => true]);
         }
@@ -190,7 +193,8 @@ class MasterDataSeeder extends Seeder
             ['slug' => 'about', 'title' => 'About Us', 'meta_title' => 'About Global Consultancy Education', 'meta_description' => 'GC Consultancy Limited (Company No 02773896) - the largest UK universities representative with offices in London and Khulna.'],
             ['slug' => 'services', 'title' => 'Our Services', 'meta_title' => 'Services: Free Counselling, Admission, Visa, Accommodation', 'meta_description' => 'Free counselling, admission services, university selection, document preparation, scholarships, visa guidance, accommodation and post-arrival support.'],
             ['slug' => 'contact', 'title' => 'Contact Us', 'meta_title' => 'Contact: London Whitechapel Road & Khulna Nirala', 'meta_description' => 'London: Suite 3, LMC Business Wing, 38-44 Whitechapel Road E1 1JX. Khulna: House 52, Nirala R/A. Call 07402 993321.'],
-            ['slug' => 'privacy', 'title' => 'Privacy Policy'],
+            ['slug' => 'privacy', 'title' => 'Privacy Policy', 'content' => 'Global Consultancy Education collects your name, contact details and academic documents solely to process your study-abroad application. We never sell your data. You may request export or deletion at any time via info@gconsultancy.co.uk.'],
+            ['slug' => 'terms', 'title' => 'Terms of Service', 'content' => 'Counselling and application processing are 100% free. You are responsible for the accuracy of documents you provide. Visa decisions rest solely with the relevant embassy or high commission.'],
             ['slug' => 'visa-success-stories', 'title' => 'Visa Success Stories', 'meta_title' => 'UK Student Visa Success Stories', 'meta_description' => 'Real UK visa success stories from our students. 100% proven VISA record.'],
             ['slug' => 'study-destinations', 'title' => 'Study Destinations', 'meta_title' => 'Study in UK, USA, Canada, Australia, EU, Malaysia, Finland', 'meta_description' => 'Study destinations: UK, USA, Canada, Australia, EU, Malaysia, Finland and Middle East. 15+ countries.'],
         ] as $page) {
@@ -302,8 +306,8 @@ class MasterDataSeeder extends Seeder
             MenuItem::firstOrCreate(['menu_id' => $item['menu_id'], 'label' => $item['label']], $item + ['parent_id' => null, 'active' => true]);
         }
         foreach ([
-            ['menu_id' => $footer->id, 'label' => 'Privacy Policy', 'url' => '/privacy', 'sort_order' => 1],
-            ['menu_id' => $footer->id, 'label' => 'Terms', 'url' => '/terms', 'sort_order' => 2],
+            ['menu_id' => $footer->id, 'label' => 'Privacy Policy', 'url' => '/p/privacy', 'sort_order' => 1],
+            ['menu_id' => $footer->id, 'label' => 'Terms', 'url' => '/p/terms', 'sort_order' => 2],
         ] as $item) {
             MenuItem::firstOrCreate(['menu_id' => $item['menu_id'], 'label' => $item['label']], $item + ['parent_id' => null, 'active' => true]);
         }

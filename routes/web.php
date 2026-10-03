@@ -43,6 +43,7 @@ Route::post('/enquiries', [PublicController::class, 'enquirySubmit'])->middlewar
 Route::post('/course-apply', [PublicController::class, 'courseApply'])->middleware('throttle:20,1')->name('course.apply');
 Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
+Route::get('/p/{slug}', [PublicController::class, 'page'])->name('public.page');
 Route::get('/compare', [\App\Http\Controllers\EngagementController::class, 'compare'])->name('engagement.compare');
 Route::get('/eligibility-check', [\App\Http\Controllers\EngagementController::class, 'eligibility'])->name('engagement.eligibility');
 Route::post('/eligibility-check', [\App\Http\Controllers\EngagementController::class, 'eligibilityCheck'])->name('engagement.eligibility.check');

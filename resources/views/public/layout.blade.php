@@ -120,6 +120,12 @@
     </div>
 </footer>
 
+@if(!request()->cookie('gc_cookie_ok'))
+<div class="fixed-bottom bg-dark text-white small py-2" id="cookieBanner"><div class="container d-flex justify-content-between align-items-center gap-2 flex-wrap">
+<span>We use cookies to improve your experience. See our <a class="link-light" href="{{ url('/p/privacy') }}">Privacy Policy</a>.</span>
+<button class="btn btn-sm btn-brass" onclick="document.cookie='gc_cookie_ok=1;max-age=31536000;path=/';document.getElementById('cookieBanner').remove()">Accept</button>
+</div></div>
+@endif
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @stack('scripts')
 </body>

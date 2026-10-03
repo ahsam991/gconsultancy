@@ -59,6 +59,7 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><span class="dropdown-item-text small text-muted">{{ auth()->user()->email ?? '' }}</span></li>
                             <li><hr class="dropdown-divider"></li>
+                            @if(Route::has('2fa.setup'))<li><a class="dropdown-item" href="{{ route('2fa.setup') }}"><i class="fa-solid fa-shield-halved me-2"></i>Two-Factor Auth</a></li>@endif
                             <li>
                                 <form method="POST" action="{{ Route::has('logout') ? route('logout') : url('/logout') }}" onsubmit="this.querySelector('button').disabled=true">
                                     @csrf
@@ -88,6 +89,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+@auth
+@if(auth()->user()->role?->name === 'candidate')
+<nav class="d-md-none fixed-bottom bg-white border-top" aria-label="Portal navigation"><div class="d-flex justify-content-around py-2 small">
+<a href="{{ route('portal.dashboard') }}" class="text-center"><i class="fa-solid fa-house d-block"></i>Home</a>
+<a href="{{ route('portal.applications') }}" class="text-center"><i class="fa-solid fa-file-lines d-block"></i>Apps</a>
+<a href="{{ route('portal.documents') }}" class="text-center"><i class="fa-solid fa-folder-open d-block"></i>Docs</a>
+<a href="{{ route('portal.appointments') }}" class="text-center"><i class="fa-solid fa-calendar-days d-block"></i>Visits</a>
+<a href="{{ route('portal.profile') }}" class="text-center"><i class="fa-solid fa-user d-block"></i>Profile</a>
+</div></nav>
+<style>@media(max-width:767px){main{padding-bottom:70px}}</style>
+@endif
+@endauth
 <script>
 document.addEventListener('DOMContentLoaded',function(){
     if(window.jQuery && jQuery.fn.DataTable){jQuery('.data-table').each(function(){if(!jQuery.fn.DataTable.isDataTable(this)){jQuery(this).DataTable({responsive:true,pageLength:25,ordering:true,autoWidth:false});}});}
