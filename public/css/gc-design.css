@@ -1,0 +1,160 @@
+/* ============================================================
+   Global Consultancy — design system (DESIGN.md)
+   Static CSS, no build step. Bootstrap 5.3 sits underneath.
+   Rules: no gradients, one accent per view, tabular numerals,
+   transform/opacity motion only, prefers-reduced-motion respected.
+   ============================================================ */
+:root{
+  --gc-ink:#16233f;
+  --gc-ink-2:#1f2f52;
+  --gc-ink-soft:#48587c;
+  --gc-paper:#faf8f3;
+  --gc-card:#ffffff;
+  --gc-line:#e7e1d2;
+  --gc-line-soft:#f0ebdf;
+  --gc-accent:#1e40af;
+  --gc-accent-ink:#17317f;
+  --gc-brass:#b45309;
+  --gc-brass-soft:#fdf3e7;
+  --gc-ok:#166534;
+  --gc-ok-bg:#eaf5ee;
+  --gc-warn:#92400e;
+  --gc-warn-bg:#fdf3e7;
+  --gc-bad:#991b1b;
+  --gc-bad-bg:#fbecec;
+  --gc-info:#1e40af;
+  --gc-info-bg:#eaf0fd;
+  --gc-mute:#6b7690;
+  --gc-mute-bg:#eef0f4;
+  --gc-display:"Newsreader",Georgia,"Times New Roman",serif;
+  --gc-ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gc-z-nav:100;
+  --gc-z-drop:200;
+  --gc-z-modal:300;
+  --gc-z-toast:400;
+  --gc-r:10px;
+}
+
+/* ---------- base ---------- */
+body{font-family:var(--gc-ui);background:var(--gc-paper);color:var(--gc-ink);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+h1,h2,.gc-display{font-family:var(--gc-display);text-wrap:balance;letter-spacing:0}
+p,.gc-body-text{text-wrap:pretty}
+.tnum,.table,.stat-num,.badge{font-variant-numeric:tabular-nums}
+::selection{background:var(--gc-accent);color:#fff}
+
+/* eyebrow: small-caps section label */
+.gc-eyebrow{display:block;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gc-brass);margin-bottom:.5rem}
+.gc-eyebrow.blue{color:var(--gc-accent)}
+
+/* warm hairlines on cards */
+.card{border:1px solid var(--gc-line);border-radius:var(--gc-r);box-shadow:0 1px 2px rgba(22,35,63,.05)}
+.card-header{background:var(--gc-card);border-bottom:1px solid var(--gc-line-soft);font-weight:600}
+
+/* one accent per view: primary buttons */
+.btn-primary{--bs-btn-bg:var(--gc-accent);--bs-btn-border-color:var(--gc-accent);--bs-btn-hover-bg:var(--gc-accent-ink);--bs-btn-hover-border-color:var(--gc-accent-ink)}
+.btn-brass{--bs-btn-bg:var(--gc-brass);--bs-btn-border-color:var(--gc-brass);--bs-btn-hover-bg:#8f4207;--bs-btn-hover-border-color:#8f4207;--bs-btn-color:#fff;--bs-btn-hover-color:#fff}
+.btn-outline-brass{--bs-btn-color:var(--gc-brass);--bs-btn-border-color:var(--gc-brass);--bs-btn-hover-bg:var(--gc-brass);--bs-btn-hover-border-color:var(--gc-brass);--bs-btn-hover-color:#fff}
+
+/* ---------- public top strip + nav ---------- */
+.gc-topstrip{background:var(--gc-ink);color:#e9e4d8}
+.gc-topstrip a{color:#fff}
+.gc-navbar{background:rgba(250,248,243,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--gc-line)}
+.gc-brandmark{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--gc-display);font-weight:700;font-size:1.2rem;color:var(--gc-ink)}
+.gc-brandmark .gc-crest{width:34px;height:34px;border-radius:9px;background:var(--gc-ink);color:#f3ead3;display:inline-flex;align-items:center;justify-content:center;font-size:1rem;flex:none}
+.gc-navbar .nav-link{color:var(--gc-ink-soft);font-weight:500;font-size:.93rem;padding:.5rem .7rem}
+.gc-navbar .nav-link:hover{color:var(--gc-ink)}
+
+/* ---------- hero ---------- */
+.gc-hero{background:var(--gc-ink);color:#f5f1e6;border-bottom:4px solid var(--gc-brass);overflow:hidden}
+.gc-hero h1{font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.08;font-weight:600}
+.gc-hero .lead{color:#cfd6e4;max-width:34rem}
+.gc-hero-rule{width:64px;height:3px;background:var(--gc-brass);border:0;margin:1rem 0}
+.gc-hero-card{background:#fff;color:var(--gc-ink);border-radius:14px;border:1px solid var(--gc-line)}
+.gc-proof{display:flex;gap:1.75rem;flex-wrap:wrap;margin-top:1.5rem}
+.gc-proof .n{font-family:var(--gc-display);font-size:1.5rem;font-weight:700}
+.gc-proof .l{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:#aeb8cf}
+
+/* section rhythm */
+.gc-section{padding:3.5rem 0}
+.gc-section h2{font-size:clamp(1.5rem,2.8vw,2.1rem);font-weight:600}
+.gc-dest-card{border:1px solid var(--gc-line);border-radius:12px;background:#fff;padding:1.25rem;height:100%;transition:transform .18s ease-out,box-shadow .18s ease-out}
+.gc-dest-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(22,35,63,.10)}
+.gc-dest-card .flag{font-family:var(--gc-display);font-size:1.35rem;font-weight:700}
+.gc-step-num{width:40px;height:40px;border-radius:50%;background:var(--gc-ink);color:#f3ead3;font-family:var(--gc-display);font-weight:700;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;flex:none}
+.gc-faq .accordion-button:not(.collapsed){background:var(--gc-brass-soft);color:var(--gc-ink);box-shadow:none}
+.gc-faq .accordion-button:focus{box-shadow:0 0 0 2px rgba(30,64,175,.25)}
+.gc-cta-band{background:var(--gc-ink);border-top:4px solid var(--gc-brass);color:#f5f1e6;border-radius:16px}
+
+/* ---------- CRM shell: ink sidebar ---------- */
+.sidebar{background:var(--gc-ink)!important;border-right:0!important}
+.sidebar .gc-side-brand{color:#f3ead3!important}
+.sidebar .gc-side-brand i{color:var(--gc-brass)}
+.sidebar .nav-link{color:#b9c2d6!important;font-size:.9rem;padding:.5rem .8rem;border-radius:.45rem;border-left:3px solid transparent}
+.sidebar .nav-link:hover{background:rgba(255,255,255,.07);color:#fff!important}
+.sidebar .nav-link.active{background:rgba(255,255,255,.10)!important;color:#fff!important;border-left-color:var(--gc-brass)}
+.sidebar .nav-link i{color:#8b96b3;width:1.25rem;text-align:center}
+.sidebar .nav-link.active i,.sidebar .nav-link:hover i{color:var(--gc-brass)}
+.sidebar .nav-small .nav-link{font-size:.84rem;padding:.35rem .8rem;color:#9aa5c0!important}
+.sidebar .border-bottom{border-color:rgba(255,255,255,.12)!important}
+.sidebar .border-top{border-color:rgba(255,255,255,.12)!important}
+.sidebar .text-muted{color:#8b96b3!important}
+.main-wrap{background:var(--gc-paper)}
+.gc-topbar{background:#fff;border-bottom:1px solid var(--gc-line)}
+
+/* ---------- calm stat strip (replaces rainbow cards) ---------- */
+.gc-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}
+@media(min-width:768px){.gc-stats{grid-template-columns:repeat(4,1fr)}}
+.gc-stat{background:#fff;border:1px solid var(--gc-line);border-top:3px solid var(--gc-accent);border-radius:var(--gc-r);padding:.9rem 1rem}
+.gc-stat.brass{border-top-color:var(--gc-brass)}
+.gc-stat .v{font-family:var(--gc-display);font-size:1.7rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.gc-stat .l{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--gc-ink-soft);margin-top:.3rem}
+.gc-stat .s{font-size:.78rem;color:var(--gc-mute)}
+
+/* ---------- stamps (status badges) ---------- */
+.gc-stamp{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:.28rem .6rem;border-radius:999px;border:1.5px solid transparent;white-space:nowrap;font-variant-numeric:tabular-nums}
+.gc-stamp.ok{color:var(--gc-ok);border-color:var(--gc-ok);background:var(--gc-ok-bg)}
+.gc-stamp.info{color:var(--gc-info);border-color:var(--gc-info);background:var(--gc-info-bg)}
+.gc-stamp.warn{color:var(--gc-warn);border-color:var(--gc-warn);background:var(--gc-warn-bg)}
+.gc-stamp.bad{color:var(--gc-bad);border-color:var(--gc-bad);background:var(--gc-bad-bg)}
+.gc-stamp.mute{color:var(--gc-mute);border-color:#c9cfdb;background:var(--gc-mute-bg)}
+.gc-stamp.sealed{box-shadow:inset 0 0 0 1px currentColor;transform:rotate(-2deg)}
+
+/* ---------- journey rail (boarding-pass stepper) ---------- */
+.gc-rail{display:flex;gap:0;overflow-x:auto;border:1px solid var(--gc-line);border-radius:var(--gc-r);background:#fff}
+.gc-rail .stop{flex:1 0 auto;min-width:104px;padding:.7rem .5rem;text-align:center;font-size:.7rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--gc-mute);border-right:1px dashed var(--gc-line);position:relative}
+.gc-rail .stop:last-child{border-right:0}
+.gc-rail .stop .dot{width:11px;height:11px;border-radius:50%;border:2px solid #c9cfdb;background:#fff;margin:0 auto .35rem}
+.gc-rail .stop.done{color:var(--gc-ok)}
+.gc-rail .stop.done .dot{background:var(--gc-ok);border-color:var(--gc-ok)}
+.gc-rail .stop.now{color:var(--gc-ink);background:var(--gc-brass-soft)}
+.gc-rail .stop.now .dot{background:var(--gc-brass);border-color:var(--gc-brass)}
+
+/* ---------- tables ---------- */
+.table{--bs-table-bg:#fff;color:var(--gc-ink);font-variant-numeric:tabular-nums}
+.table thead th{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gc-ink-soft);border-bottom:2px solid var(--gc-line);background:#fbf9f4;position:sticky;top:0}
+.table tbody tr:hover{--bs-table-hover-bg:#f6f2e9}
+.dataTables_wrapper .dataTables_filter input,.dataTables_wrapper .dataTables_length select{border:1px solid var(--gc-line);border-radius:.45rem}
+
+/* ---------- timeline ---------- */
+.gc-tl{list-style:none;margin:0;padding:0 0 0 1.1rem;border-left:2px solid var(--gc-line)}
+.gc-tl li{position:relative;padding:0 0 1rem .9rem}
+.gc-tl li::before{content:"";position:absolute;left:-1.52rem;top:.25rem;width:.7rem;height:.7rem;border-radius:50%;background:#fff;border:2px solid var(--gc-brass)}
+
+/* ---------- portal tracker ---------- */
+.gc-track{background:#fff;border:1px solid var(--gc-line);border-radius:14px;padding:1rem}
+.gc-track .pct{font-family:var(--gc-display);font-size:2rem;font-weight:700;font-variant-numeric:tabular-nums}
+.progress{--bs-progress-bg:var(--gc-line-soft)}
+.progress-bar{background-color:var(--gc-accent)}
+
+/* ---------- footer ---------- */
+.gc-footer{background:var(--gc-ink);color:#c9d1e3}
+.gc-footer a{color:#fff}
+.gc-footer h2{color:#f3ead3;font-size:.95rem}
+
+/* ---------- motion discipline ---------- */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+.gc-fade-in{animation:gcIn .18s ease-out}
+@keyframes gcIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}

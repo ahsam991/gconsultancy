@@ -1,0 +1,11 @@
+@php $t = $task ?? null; @endphp
+<div class="row">
+    <div class="col-12 mb-3"><label class="form-label">Title <span class="text-danger">*</span></label><input name="title" value="{{ old('title', $t->title ?? '') }}" class="form-control" required></div>
+    <div class="col-md-6 mb-3"><label class="form-label">Status</label><select name="status" class="form-select">@foreach(['pending','in_progress','completed','overdue','cancelled'] as $s)<option @selected(old('status',$t->status ?? 'pending')==$s)>{{ $s }}</option>@endforeach</select></div>
+    <div class="col-md-6 mb-3"><label class="form-label">Priority</label><select name="priority" class="form-select">@foreach(['low','normal','high','urgent'] as $p)<option @selected(old('priority',$t->priority ?? 'normal')==$p)>{{ $p }}</option>@endforeach</select></div>
+    <div class="col-md-6 mb-3"><label class="form-label">Due Date</label><input type="date" name="due_date" value="{{ old('due_date', isset($t->due_date) ? \Carbon\Carbon::parse($t->due_date)->format('Y-m-d') : '') }}" class="form-control"></div>
+    <div class="col-md-6 mb-3"><label class="form-label">Assign To</label><select name="assigned_to" class="form-select"><option value="">—</option>@foreach(($staff ?? $users ?? []) as $u)<option value="{{ $u->id }}" @selected(old('assigned_to',$t->assigned_to ?? '')==$u->id)>{{ $u->name }}</option>@endforeach</select></div>
+    <div class="col-md-6 mb-3"><label class="form-label">Candidate (optional)</label><select name="candidate_id" class="form-select"><option value="">—</option>@foreach(($candidates ?? []) as $c)<option value="{{ $c->id }}" @selected(old('candidate_id',$t->candidate_id ?? request('candidate'))==$c->id)>{{ $c->first_name }} {{ $c->last_name }}</option>@endforeach</select></div>
+    <div class="col-md-6 mb-3"><label class="form-label">Application (optional)</label><select name="application_id" class="form-select"><option value="">—</option>@foreach(($applications ?? []) as $a)<option value="{{ $a->id }}" @selected(old('application_id',$t->application_id ?? request('application'))==$a->id)>{{ $a->uid ?? $a->id }}</option>@endforeach</select></div>
+    <div class="col-12 mb-3"><label class="form-label">Description</label><textarea name="description" rows="2" class="form-control">{{ old('description', $t->description ?? '') }}</textarea></div>
+</div>

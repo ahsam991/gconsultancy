@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /portal
+Disallow: /dashboard
+Disallow: /candidate
+
+Sitemap: https://globalconsultancy.com/sitemap.xml
