@@ -183,6 +183,9 @@ class CandidateController extends Controller
         $request->validate(['file' => 'required|file|mimes:csv,txt|max:5120']);
         $rows = array_map('str_getcsv', file($request->file('file')->getRealPath()));
         $header = array_map('trim', array_shift($rows));
+        // Legacy CSV header aliases mapped to canonical DB columns (single source of truth: migrations).
+        $aliases = ['preferred_country' => 'preferred_destination', 'current_status' => 'status'];
+        $header = array_map(fn ($h) => $aliases[$h] ?? $h, $header);
         $preview = [];
         foreach (array_slice($rows, 0, 50) as $row) {
             if (count($row) === count($header)) {
@@ -210,7 +213,7 @@ class CandidateController extends Controller
                 'last_name' => $row['last_name'] ?? '',
                 'email' => $row['email'],
                 'phone' => $row['phone'] ?? ('import-'.uniqid()),
-                'preferred_destination' => $row['preferred_destination'] ?? $row['preferred_country'] ?? null,
+                'preferred_destination' => $row['preferred_destination'] ?? null,
                 'status' => 'NEW',
                 'created_by' => $request->user()->id,
             ]);
