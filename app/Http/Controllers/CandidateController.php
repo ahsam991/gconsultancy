@@ -48,7 +48,7 @@ class CandidateController extends Controller
             $query->where('status', $request->get('status'));
         }
         if ($request->filled('destination')) {
-            $query->where('preferred_country', $request->get('destination'));
+            $query->where('preferred_destination', $request->get('destination'));
         }
         if ($request->filled('staff') && in_array($request->user()->role?->name, ['admin', 'manager'], true)) {
             $query->where('assigned_staff_id', $request->get('staff'));

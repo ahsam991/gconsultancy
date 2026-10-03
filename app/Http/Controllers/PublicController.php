@@ -205,7 +205,7 @@ class PublicController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'notes' => 'Course interest: '.$data['course_id'],
-            'current_status' => 'NEW',
+            'status' => 'NEW',
         ]);
         return redirect()->back()->with('status', 'Course application received.');
     }

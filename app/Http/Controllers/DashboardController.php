@@ -62,8 +62,11 @@ class DashboardController extends Controller
             ->whereDate('appointment_date', now()->toDateString())
             ->orderBy('appointment_date')->limit(6)->get();
 
+        $monthExpr = \Illuminate\Support\Facades\DB::getDriverName() === 'mysql'
+            ? "DATE_FORMAT(created_at, '%Y-%m')"
+            : "strftime('%Y-%m', created_at)";
         $appsByMonth = (clone $applicationQuery)
-            ->selectRaw("strftime('%Y-%m', created_at) as ym, COUNT(*) as total")
+            ->selectRaw("{$monthExpr} as ym, COUNT(*) as total")
             ->where('created_at', '>=', now()->subMonths(7)->startOfMonth())
             ->groupBy('ym')->orderBy('ym')->pluck('total', 'ym');
 
